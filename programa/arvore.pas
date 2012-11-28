@@ -17,8 +17,14 @@ Exibir Em nível: No exemplo da árvore A1, teríamos a seguinte exibição : a,
 
 Program arvore;
 
-uses crt, untArvore;
+Uses crt, untArvore;
 
-begin
+Var
 
-end.
+	Arvore : T_Arvore;
+
+Begin
+
+	IniciarArvore(Arvore);
+
+End.
