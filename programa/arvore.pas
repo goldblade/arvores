@@ -37,6 +37,9 @@ Begin;
 End;
 Procedure Exibir(var Arvore:T_Arvore);
 Begin
+    writeln;
+    untArvore.exibirEmNivel(Arvore);
+    readkey;
 End;
 
 Procedure Menu(var Arvore:T_Arvore);
