@@ -33,7 +33,14 @@ Begin
 End;
 
 Procedure Deletar(var Arvore:T_Arvore);
+Var
+    Elemento : T_Item;
 Begin;
+    clrscr;
+    writeln('Digite o elemento a ser deletado');
+    readln(Elemento.Campo);
+    untArvore.Remover(Arvore, Elemento);
+    writeln;writeln('pressione uma tecla para continuar...');readkey;
 End;
 Procedure Exibir(var Arvore:T_Arvore);
 Begin
