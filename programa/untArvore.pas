@@ -24,8 +24,6 @@ procedure criarRaiz(var Arvore : T_Arvore; Item : T_Item);
 procedure InserirItemEsquerda(var Pai : T_Arvore; Item : T_Item);
 procedure InserirItemDireita(var Pai : T_Arvore; Item : T_Item);
 
-function buscaEmOrdem(var Arvore : T_arvore; Item : string) : T_Arvore;
-
 procedure exibirEmOrdem(var Arvore : T_arvore);
 
 procedure exibirEmNivel(var Arvore : T_arvore);
@@ -36,6 +34,9 @@ function contarNiveis(var Arvore: T_arvore): integer;
 
 procedure exibirPreOrdem(var Arvore : T_arvore);
 
+function noMinimo(var arvore : t_arvore): t_arvore;
+
+procedure Remover(var Arvore : T_Arvore; Item: T_Item);
 
 Implementation
 
@@ -144,11 +145,6 @@ begin
 
 end;
 
-function buscaEmOrdem(var Arvore : T_arvore; Item : string) : T_Arvore;
-begin
-
-end;
-
 procedure exibirEmOrdem(var Arvore : T_arvore);
 begin
   if (Arvore <> nil) Then
@@ -227,5 +223,60 @@ begin
     else contarNiveis := iR;
 
 end;
+
+function noMinimo(var arvore : t_arvore): t_arvore; {procura o no com valor minimo}
+begin
+
+    if (arvore <> nil) then begin
+
+	if (arvore^.esq = nil) then 
+	    noMinimo := Arvore
+	else 
+	    noMinimo := Arvore^.esq;
+
+    end else 
+	noMinimo := nil;
+
+end;
+
+
+procedure Remover(var Arvore : T_Arvore; Item: T_Item);
+var
+    aux : T_Arvore;
+begin
+
+    if (arvore <> nil) then begin
+	{ // se o valor que será removido for menor que o nó atual,}
+	if (Item.Campo < Arvore^.Item.campo) then 
+	    {faz recursividade a esquerda}
+	    Remover(Arvore^.ESQ, Item)
+	else begin
+	    {se o valor que for remover for maior que o nó atual}
+	    if (Item.Campo > Arvore^.item.campo) then
+		{recursividade a direita}
+		remover(Arvore^.DIR, item)
+	    else if (not chkArvoreVazia(Arvore^.ESQ)) and (not chkArvoreVazia(Arvore^.DIR)) then begin
+		{encontrou}
+		{ verificamos se os nós filhos da esquerda e direita não são null.
+		     se não forem null, buscamos o menor nó a artir do nó da direita.
+		}
+		aux := noMinimo(Arvore^.dir);
+		Arvore^.Item.campo := aux^.item.campo;
+		remover(arvore^.dir, arvore^.item);
+	    end else begin
+		{caso os nó da direita e da esqueda, ou somente o da direita, precisamos apenas remover
+                 o nó atual e fazer ajustar os ponteiros }
+		aux := arvore;
+		if(chkArvoreVazia(Arvore^.esq)) then { se o nó da esquerda for vazio}
+		    arvore := arvore^.dir {o nó pai do atual, apontará para o filho da direita do nó atual.}
+                else arvore := arvore^.esq; {se o nó da esquerda não for vazio.
+                                            o nó pai do atual, apontará para o filho da esquerda do nó atual.}
+                Dispose(aux);
+	    end;
+	end;
+    end else writeln('error');
+
+end;
+
 
 End.
